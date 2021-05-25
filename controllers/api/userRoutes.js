@@ -2,36 +2,59 @@ const router = require('express').Router();
 const {User} = require('../../models');
 const withAuth = require('../../utils/auth');
 
-router.post('/',withAuth, async (req,res)=> {
+router.post('/', async (req, res)=> {  //no withAuth because we're making an new, as yet unauthenticated user
     try{ 
-        const newBlog = await Blog.create({
-            ...req.body, 
-            user_id: req.session.user_id,
-        });
+        const userData = await User.create(req.body) 
 
-    res.status(200).json(newBlog);
+    req.session.save(()=> { 
+        req.session.user_id=userData.id;
+        req.session.logged_in=true;
+        res.status(200).json(userData);
+     })
     } catch (err){
         res.status(400),json(err);
     }
  });
 
-router.delete('/:id', withAuth, async (req, res) => { 
-    try { 
-        const blogData = await Blog.destroy({  
-            where: { 
-                id:req.params.id, 
-                user_id: req.session.user_id,
-            },
-        });
-    if (!blogData){
-        res.status(404).json({ message: 'No blog found with this ID! '});
+router.post('/login', async (req, res)=> {
+    try{ 
+        const userData = await User.findOne({ where: { email:req.body.email}});
+
+        if (!userData){
+            res
+            .status(400)
+            .json({ 
+                message: 'Incorrect email or password, please try again'
+             });
+             return;
+        }
+    const validPassword = await userData.checkPassword(req.body.password);
+
+    if (!validPassword) {
+        res
+        .status(400)
+        .json({ message: 'Incorrect email or password, please try again'});
         return;
     }
 
-    res.status(200).json(blogData);
-    }
-    catch (err){
-        res.status(500).json(err);
+    req.session.save(()=> { 
+        req.session.user_id=userData.id;
+        req.session.logged_in=true;
+        res.json({user: userData, message:'You are now logged in!' });
+     });
+
+     } catch (err) {
+         res.status(400).json(err);
+     }
+})
+
+module.post('/logout', (req,res) => {
+    if (req.session.logged_in){
+        req.session.destroy(()=> { 
+            res.status(204).end();
+         });
+    } else {
+        res.status(404).end();
     }
 });
 
