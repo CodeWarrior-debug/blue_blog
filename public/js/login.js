@@ -25,6 +25,7 @@ const loginFormHandler = async (event) => {
 
 const signupFormHandler = async (event) => {
   event.preventDefault();
+  console.log("in signup");
   const name = document.querySelector("#name-signup").value.trim();
   const email = document.querySelector("#email-signup").value.trim();
   const password = document.querySelector("#password-signup").value.trim();
@@ -39,15 +40,14 @@ const signupFormHandler = async (event) => {
     if (response.ok) {
       document.location.replace("/profile");
     } else {
+      console.log("problem here");
       alert(response.statusText);
     }
   }
 };
 
-document
-  .querySelector("login-form")
-  .addEventListener("submit", loginFormHandler);
+document.querySelector("login-form");
+document.addEventListener("submit", loginFormHandler);
 
-document
-  .querySelector("signup-form")
-  .addEventListener("submit", signupFormHandler);
+document.querySelector("signup-form");
+document.addEventListener("submit", signupFormHandler);

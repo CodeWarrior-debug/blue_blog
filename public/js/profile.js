@@ -3,8 +3,8 @@ const newFormHandler = async (event) => {
   
     //Collect values from form fields
   
-    const name = document.querySelector("#blog-name").value.trim();
-    const full_text = document.querySelector("#blog-desc").value.trim();
+    const name = document.querySelector("#blog-title").value.trim();
+    const full_text = document.querySelector("#full-text").value.trim();
     if (name && full_text) {
         const response = await fetch(`/api/blogs`, {
           method: 'POST',
@@ -17,26 +17,26 @@ const newFormHandler = async (event) => {
         if (response.ok) {
           document.location.replace('/profile');
         } else {
-          alert('Failed to create project');
+          alert('Failed to create post.');
         }
       }
+  };
 
-      const delButtonHandler = async (event) => {
-        if (event.target.hasAttribute('data-id')) {
-          const id = event.target.getAttribute('data-id');
-      
-          const response = await fetch(`/api/blogs/${id}`, {
-            method: 'DELETE',
-          });
-      
-          if (response.ok) {
-            document.location.replace('/profile');
-          } else {
-            alert('Failed to delete project');
-          }
-        }
-      };
-
+  const delButtonHandler = async (event) => {
+    event.preventDefault();
+    if (event.target.hasAttribute('data-id')) {
+      const id = event.target.getAttribute('data-id');
+  
+      const response = await fetch(`/api/blogs/${id}`, {
+        method: 'DELETE',
+      });
+  
+      if (response.ok) {
+        document.location.replace('/profile');
+      } else {
+        alert('Failed to delete blog');
+      }
+    }
   };
   
     
@@ -44,7 +44,8 @@ const newFormHandler = async (event) => {
     .querySelector(".new-blog-form")
     .addEventListener("submit", newFormHandler);
   
-  document
-    .querySelector(".project-list")
-    .addEventListener('click', delButtonHandler);
+  
+    document
+      .querySelector(".project-list")
+      .addEventListener('click', delButtonHandler);
   
