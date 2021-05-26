@@ -4,11 +4,13 @@ const newFormHandler = async (event) => {
     //Collect values from form fields
   
     const name = document.querySelector("#blog-title").value.trim();
-    const full_text = document.querySelector("#full-text").value.trim();
-    if (name && full_text) {
+    const fulltext = document.querySelector("#full-text").value.trim();
+    if (name && fulltext) {
+      console.log(name);
+      console.log(fulltext);
         const response = await fetch(`/api/blogs`, {
           method: 'POST',
-          body: JSON.stringify({ name, full_text }),
+          body: JSON.stringify({ name, fulltext }),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -44,8 +46,23 @@ const newFormHandler = async (event) => {
     .querySelector(".new-blog-form")
     .addEventListener("submit", newFormHandler);
   
+    
+  document
+    .querySelector('delete')
+    .addEventListener('click', delButtonHandler);
+
+      // {{!-- const blogDelete = async (event) => {
+//     event.preventDefault();
+//     const deleteBlog = await fetch(`/api/blogs/${id}`, {
+//       method: 'DELETE',
+//     })
+//     if (deleteBlog.ok) {
+//       document.location.replace('/dashboard')
+//     } else {
+//       console.log('failed to delete')
+//     }
+//   }
   
-    document
-      .querySelector(".project-list")
-      .addEventListener('click', delButtonHandler);
+//   form.addEventListener('submit', blogUpdate);
+//   document.getElementById('delete').addEventListener('click', blogDelete); --}}
   
