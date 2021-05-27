@@ -48,21 +48,5 @@ const newFormHandler = async (event) => {
   
     
   document
-    .querySelector('delete')
+    .querySelector('.blog-list')
     .addEventListener('click', delButtonHandler);
-
-      // {{!-- const blogDelete = async (event) => {
-//     event.preventDefault();
-//     const deleteBlog = await fetch(`/api/blogs/${id}`, {
-//       method: 'DELETE',
-//     })
-//     if (deleteBlog.ok) {
-//       document.location.replace('/dashboard')
-//     } else {
-//       console.log('failed to delete')
-//     }
-//   }
-  
-//   form.addEventListener('submit', blogUpdate);
-//   document.getElementById('delete').addEventListener('click', blogDelete); --}}
-  

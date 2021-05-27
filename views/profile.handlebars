@@ -40,20 +40,16 @@
     <h3>My Posts:</h3>
     {{#each blogs as |blog|}}
     <div>
-        <div>
-            <h4><a href="/blog/{{blog.id}}">{{blog.title}}</a></h4>
+        <div class="col-md-8">
+            <h4><a href="/blogs/{{blog.id}}">{{blog.title}}</a></h4>
         </div>
-        <div>
-            <div class="col-md-4">
-                <button class='delete' data-id="{{blog.id}}">DELETE</button>
-            </div>  
-        </div>
+        <div class="col-md-4">
+            <button class='btn btn-sm btn-danger' data-id="{{blog.id}}">DELETE</button>
+        </div>  
     </div>
-</div>
-
     {{/each}}
-</div>
-{{/if}}
+    </div>
+    {{/if}}
 </div>
 
 <script src="/js/profile.js"></script>
